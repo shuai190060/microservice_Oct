@@ -4,7 +4,7 @@ on:
   push:
     branches: [ "main" ]
     paths:
-      - "broker-service"
+      - "./broker-service"
   pull_request:
     branches: [ "main" ]
 
