@@ -1,7 +1,8 @@
-
+{% raw %}
 {{template "base" .}}
 
 {{define "content" }}
+{% endraw %}
     <div class="container">
         <div class="row">
             <div class="col">
@@ -29,10 +30,11 @@
             </div>
         </div>
     </div>
-
+{% raw %}
 {{end}}
 
 {{define "js"}}
+{% endraw %}
     <script>
     let brokerBtn = document.getElementById("brokerBtn");
     let output = document.getElementById("output");
@@ -45,7 +47,7 @@
             method: 'POST',
         }
 
-        fetch("http://af7dc62c665994837b1966aaea95a95a-f1d9266a346e3c43.elb.us-east-1.amazonaws.com:80", body)
+        fetch("http://{{ broker_url }}:80", body)
         .then((response) => response.json())
         .then((data) => {
             sent.innerHTML ="empty post request";
@@ -62,5 +64,6 @@
     })
         
     </script>
-
+{% raw %}
 {{end}}
+{% endraw %}

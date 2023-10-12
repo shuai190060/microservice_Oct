@@ -1,0 +1,15 @@
+---
+controller:
+  ingressClassResource:
+    name: external-nginx
+  admissionWebhooks:
+    enable: false
+  service: 
+    annotations:
+      service.beta.kubernetes.io/aws-load-balancer-type: nlb
+    
+
+# required for ACME
+  watchIngressWithoutClass: true
+  extraArgs:
+    ingress-class: external-nginx

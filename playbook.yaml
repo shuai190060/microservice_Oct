@@ -1,0 +1,41 @@
+- name: deploy differnt microservice on k8s 
+  hosts: localhost
+  gather_facts: false
+  vars:
+    broker: false
+    broker_link_update: false
+    
+
+  tasks:
+  - name: deploy broker-service
+    when: broker
+    block:
+    - name: install nginx ingress controller 
+      shell: |
+        helm upgrade --install ingress-nginx ingress-nginx/ingress-nginx \
+          --version 4.4.2 \
+          --namespace ingress \
+          --create-namespace \
+          -f project/ingress/values.yaml
+    - name: create namespace app 
+      shell: kubectl apply -f project/ns.yaml
+    - name: deploy broker 
+      shell: kubectl apply -f project/
+
+  - name: populate the template file
+    when: broker_link_update
+    block:
+    - name: get the broker_link 
+      shell: kubectl get svc/micro-broker-deployment  -n app -o=jsonpath='{.status.loadBalancer.ingress[0].hostname}'
+      register: broker_link
+      # changed_when: false
+    - name: Replace placeholder in file with NLB link
+      template:
+        src: ./Frontend/cmd/web/templates/test.page.gohtml.j2
+        dest: ./Frontend/cmd/web/templates/test.page.gohtml
+        mode: '0644'
+      vars:
+        broker_url: "{{ broker_link.stdout }}"
+    - name: print the link 
+      debug:
+        msg: "{{ broker_link.stdout }}"

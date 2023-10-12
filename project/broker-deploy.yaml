@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: micro-broker-deployment
+  name: micro-broker-deployment
+  namespace: app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: micro-broker-deployment
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: micro-broker-deployment
+    spec:
+      containers:
+      - image: darwimroy1900/micro-broker:latest
+        name: micro-broker
+        ports:
+        - containerPort: 80
+        resources: {}
+status: {}
