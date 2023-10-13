@@ -11,4 +11,4 @@ FROM alpine:latest
 RUN mkdir /app
 COPY --from=builder /app/authApp /app
 EXPOSE 80
-CMD ["/app/brokerApp"]
+CMD ["/app/authApp"]
