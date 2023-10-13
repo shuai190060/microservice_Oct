@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: auth-app
+  name: auth-app
+  namespace: app 
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: auth-app
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: auth-app
+    spec:
+      containers:
+      - image: darwimroy1900/micro-auth:latest
+        name: micro-auth
+        ports:
+        - containerPort: 80
+        env:
+        - name: DB_PORT
+          value: "5432"
+        - name: DB_USER
+          valueFrom:
+            secretKeyRef:
+              name: auth-secret
+              key: DB_USER
+        - name: DB_NAME
+          valueFrom:
+            secretKeyRef:
+              name: auth-secret
+              key: DB_NAME
+        - name: DB_HOST
+          valueFrom:
+            secretKeyRef:
+              name: auth-secret
+              key: DB_HOST
+        - name: DB_SSLMODE
+          valueFrom:
+            secretKeyRef:
+              name: auth-secret
+              key: DB_SSLMODE
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: auth-secret
+              key: POSTGRES_PASSWORD
+
