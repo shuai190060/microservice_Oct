@@ -67,8 +67,10 @@ func connectToDB() *sql.DB {
 	host := os.Getenv("DB_HOST")
 	sslmode := os.Getenv("DB_SSLMODE")
 	password := os.Getenv("POSTGRES_PASSWORD")
+	port := os.Getenv("DB_PORT")
 	// Format the connection string
-	connStr := fmt.Sprintf("postgresql://%s:%s@%s:5432/%s?sslmode=%s", user, password, host, dbname, sslmode)
+	// connStr := fmt.Sprintf("postgresql://%s:%s@%s:5432/%s?sslmode=%s", user, password, host, dbname, sslmode)
+	connStr := fmt.Sprintf("postgresql://%s:%s@%s:%s/%s?sslmode=%s", user, password, host, port, dbname, sslmode)
 	// connStr := fmt.Sprintf("user=%s dbname=%s host=%s sslmode=%s password=%s", user, dbname, host, sslmode, password)
 
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
