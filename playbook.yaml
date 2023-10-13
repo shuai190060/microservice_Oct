@@ -4,6 +4,7 @@
   vars:
     broker: false
     broker_link_update: false
+    postgres: false
     
 
   tasks:
@@ -39,3 +40,14 @@
     - name: print the link 
       debug:
         msg: "{{ broker_link.stdout }}"
+  
+  - name: provision postgresql deployment in k8s
+    when: postgres
+    block:
+    - name: create namespace backend 
+      shell: kubectl create ns backend 
+    - name: deploy secret 
+      shell: kubectl apply -f ./credential/secret.yaml 
+    - name: deploy posgresql 
+      shell: kubectl apply -f ./db
+
