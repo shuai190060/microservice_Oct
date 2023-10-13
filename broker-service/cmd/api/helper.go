@@ -13,7 +13,7 @@ type JsonResponse struct {
 	Data    any    `json:"data,omitempty"`
 }
 
-func (app *Config) readJSON(w http.ResponseWriter, r http.Request, data any) error {
+func (app *Config) readJSON(w http.ResponseWriter, r *http.Request, data any) error {
 	maxBytes := 1048576 // 1 megabyte
 	r.Body = http.MaxBytesReader(w, r.Body, int64(maxBytes))
 
