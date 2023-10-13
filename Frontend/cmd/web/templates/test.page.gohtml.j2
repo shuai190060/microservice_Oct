@@ -45,6 +45,9 @@
 
         const body = {
             method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }
         }
 
         fetch("http://{{ broker_url }}:80", body)
