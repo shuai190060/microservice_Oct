@@ -52,12 +52,12 @@ func main() {
 	// go app.serve()
 	log.Printf("starting service on port %s:", webPort)
 	srv := &http.Server{
-		Addr:    fmt.Sprintf("%s", webPort),
+		Addr:    fmt.Sprintf(":%s", webPort),
 		Handler: app.routes(),
 	}
 	err = srv.ListenAndServe()
-	if err != nil {
-		log.Panic()
+	if err != nil && err != http.ErrServerClosed {
+		log.Fatalf("Failed to start server: %v", err) // Use log.Fatalf to log the error and then exit.
 	}
 
 }
