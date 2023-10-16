@@ -1,0 +1,8 @@
+apiVersion: v1
+data:
+  mongourl: 'mongodb-service.backend.svc.cluster.local'
+kind: ConfigMap
+metadata:
+  creationTimestamp: null
+  name: mongodb-config
+  namespace: app

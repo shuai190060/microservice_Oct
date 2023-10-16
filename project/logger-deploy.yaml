@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: logger-service
+  name: logger-service
+  namespace: app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: logger-service
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: logger-service
+    spec:
+      containers:
+      - image: darwimroy1900/micro-logger:latest
+        name: micro-logger
+        env:
+        - name: MONGO_DB_USER
+          valueFrom:
+            secretKeyRef:
+              name: mongodb-credentials
+              key: username
+        - name: MONGO_DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mongodb-credentials
+              key: password
+        - name: MONGO_DB_URL
+          valueFrom:
+            configMapKeyRef:
+              name: mongodb-config
+              key: mongourl
