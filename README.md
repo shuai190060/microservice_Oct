@@ -11,9 +11,9 @@ This repo is to refactor code the “****Working with Microservices in Go (Golan
 | Service | Port | link |
 | --- | --- | --- |
 | auth-app | 80 | http://auth-app.app.svc.cluster.local/authenticate |
-| broker-app | 80 | http://auth-app.app.svc.cluster.local/authenticate |
-| postgresql  | 5432 | http://auth-app.app.svc.cluster.local/authenticate |
-| mongodb | 20017 | http://auth-app.app.svc.cluster.local/authenticate |
+| broker-app | 80 | http://broker-app.app.svc.cluster.local/authenticate |
+| postgresql  | 5432 | http://pg-service.backend.svc.cluster.local/authenticate |
+| mongodb | 20017 | http://mongodb-service.backend.svc.cluster.local/authenticate |
 
 ## Ansible-playbook init
 
