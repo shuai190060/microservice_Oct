@@ -8,12 +8,12 @@ This repo is to refactor code the “****Working with Microservices in Go (Golan
 
 ## Port by service
 
-| Service | Port |
-| --- | --- |
-| auth-app | 8081 |
-| broker-app | 80 |
-| postgresql  | 5432 |
-| mongodb | 20017 |
+| Service | Port | link |
+| --- | --- | --- |
+| auth-app | 80 | http://auth-app.app.svc.cluster.local/authenticate |
+| broker-app | 80 | http://auth-app.app.svc.cluster.local/authenticate |
+| postgresql  | 5432 | http://auth-app.app.svc.cluster.local/authenticate |
+| mongodb | 20017 | http://auth-app.app.svc.cluster.local/authenticate |
 
 ## Ansible-playbook init
 
@@ -29,6 +29,10 @@ ansible-playbook playbook.yaml -e "mongo=true"
 
 // deploy broker
 ansible-playbook playbook.yaml -e "app=true"
+
+// deploy broker
+ansible-playbook playbook.yaml -e "logger=true"
+
 
 // update the broker link
 ansible-playbook playbook.yaml -e "broker_link_update=true"
