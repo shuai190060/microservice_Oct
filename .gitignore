@@ -2,3 +2,5 @@ credential
 .DS_Store
 authentication-service/bin
 authentication-service/makefile
+
+Frontend/cmd/web/templates/test.page.gohtml
