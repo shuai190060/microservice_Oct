@@ -8,6 +8,7 @@
     tools: false
     clean: false
     mongo: false
+    logger: false
     
 
   tasks:
@@ -35,11 +36,22 @@
     when: mongo
     block:
     - name: create namespace backend 
-      shell: kubectl create ns backend 
+      shell: kubectl apply -f ./db/ns.yaml 
     - name: deploy secret 
       shell: kubectl apply -f ./credential/mongo_secret.yaml
     - name: deploy mongodb  
       shell: kubectl apply -f ./db/mongo
+    # - name: get the mongodb url
+    #   shell: kubectl get svc/mongodb-service  -n backend -o=jsonpath='{.status.loadBalancer.ingress[0].hostname}'
+    #   register: mongo_link
+    # - name: render the logger configmap for Deployment
+    #   template:
+    #     src: ./Config/logger_url.yaml.j2
+    #     dest: ./Config/logger_url.yaml
+    #     mode: '0644'
+    #   vars:
+    #     mongo_url: "{{ mongo_link.stdout }}"
+      
 
   - name: deploy broker-service and auth-service
     when: app
@@ -50,14 +62,23 @@
       shell: kubectl apply -f ./credential/auth_secret.yaml
     - name: deploy broker and auth 
       shell: kubectl apply -f project/
+  
+  - name: deploy logger-app
+    when: logger 
+    block:
+    - name: deploy the credential and configmap for the env variables
+      shell: |
+        kubectl apply -f ./credential/logger_secret.yaml
+        kubectl apply -f ./Config/logger_url.yaml
+    - name: deploy logger
+      shell: kubectl apply -f ./project/logger-deploy.yaml
 
-  - name: populate the template file
+  - name: populate the template file for the localfront end 
     when: broker_link_update
     block:
     - name: get the broker_link 
       shell: kubectl get svc/micro-broker-deployment  -n app -o=jsonpath='{.status.loadBalancer.ingress[0].hostname}'
       register: broker_link
-      # changed_when: false
     - name: Replace placeholder in file with NLB link
       template:
         src: ./Frontend/cmd/web/templates/test.page.gohtml.j2
@@ -68,6 +89,8 @@
     - name: print the link 
       debug:
         msg: "{{ broker_link.stdout }}"
+
+  
   
   
 
