@@ -6,6 +6,8 @@
     broker_link_update: false
     postgres: false
     tools: false
+    clean: false
+    mongo: false
     
 
   tasks:
@@ -19,6 +21,25 @@
           --namespace ingress \
           --create-namespace \
           -f project/ingress/values.yaml
+  - name: provision postgresql statefulset in k8s
+    when: postgres
+    block:
+    - name: create namespace backend 
+      shell: kubectl create ns backend 
+    - name: deploy secret 
+      shell: kubectl apply -f ./credential/secret_postgres.yaml
+    - name: deploy posgresql 
+      shell: kubectl apply -f ./db/postgres
+  
+  - name: provision postgresql statefulset in k8s
+    when: mongo
+    block:
+    - name: create namespace backend 
+      shell: kubectl create ns backend 
+    - name: deploy secret 
+      shell: kubectl apply -f ./credential/mongo_secret.yaml
+    - name: deploy mongodb  
+      shell: kubectl apply -f ./db/mongo
 
   - name: deploy broker-service and auth-service
     when: app
@@ -48,15 +69,18 @@
       debug:
         msg: "{{ broker_link.stdout }}"
   
-  - name: provision postgresql deployment in k8s
-    when: postgres
+  
+
+
+  - name: clean-up 
+    when: clean 
     block:
-    - name: create namespace backend 
-      shell: kubectl create ns backend 
-    - name: deploy secret 
-      shell: kubectl apply -f ./credential/secret_postgres.yaml
-    - name: deploy posgresql 
-      shell: kubectl apply -f ./db
+    - name: clean up
+      shell: |
+        kubectl delete -f project/
+        kubectl delete -f ./db/postgres
+
+ 
   
 
 

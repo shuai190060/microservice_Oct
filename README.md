@@ -13,6 +13,7 @@ This repo is to refactor code the “****Working with Microservices in Go (Golan
 | auth-app | 8081 |
 | broker-app | 80 |
 | postgresql  | 5432 |
+| mongodb | 20017 |
 
 ## Ansible-playbook init
 
@@ -20,12 +21,24 @@ This repo is to refactor code the “****Working with Microservices in Go (Golan
 // deploy tools, (nginx, )
 ansible-playbook playbook.yaml -e "tools=true"
 
+// provision the database
+ansible-playbook playbook.yaml -e "postgres=true"
+
+// provision the mongo database
+ansible-playbook playbook.yaml -e "mongo=true"
+
 // deploy broker
 ansible-playbook playbook.yaml -e "app=true"
 
 // update the broker link
 ansible-playbook playbook.yaml -e "broker_link_update=true"
 
-// provision the database
-ansible-playbook playbook.yaml -e "postgres=true"
+
+
+
+
+
+
+// clean up
+ansible-playbook playbook.yaml -e "clean=true"
 ```
