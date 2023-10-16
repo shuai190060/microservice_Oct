@@ -4,3 +4,4 @@ authentication-service/bin
 authentication-service/makefile
 
 Frontend/cmd/web/templates/test.page.gohtml
+logger-service/local_test.sh 
