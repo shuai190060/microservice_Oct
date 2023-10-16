@@ -52,7 +52,7 @@ func main() {
 	// go app.serve()
 	log.Printf("starting service on port %s:", webPort)
 	srv := &http.Server{
-		Addr:    fmt.Sprintf(":%s", webPort),
+		Addr:    fmt.Sprintf("%s", webPort),
 		Handler: app.routes(),
 	}
 	err = srv.ListenAndServe()
@@ -80,6 +80,7 @@ func connectToMongo() (*mongo.Client, error) {
 	password := os.Getenv("MONGO_DB_PASSWORD")
 	mongoURL := os.Getenv("MONGO_DB_URL")
 
+	mongoURL = fmt.Sprintf("%s:27017", mongoURL)
 	// craete connection options
 	clientOptions := options.Client().ApplyURI(mongoURL)
 	clientOptions.SetAuth(options.Credential{
