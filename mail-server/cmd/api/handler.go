@@ -1,6 +1,9 @@
 package main
 
-import "net/http"
+import (
+	"log"
+	"net/http"
+)
 
 func (app *Config) SendMail(w http.ResponseWriter, r *http.Request) {
 	type mailMessge struct {
@@ -24,6 +27,7 @@ func (app *Config) SendMail(w http.ResponseWriter, r *http.Request) {
 	}
 	err = app.Mailer.SendSMTPMessage(msg)
 	if err != nil {
+		log.Println(err)
 		app.errorJson(w, err)
 		return
 	}

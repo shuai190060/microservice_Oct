@@ -10,5 +10,6 @@ RUN chmod +x /app/mailAPP
 FROM alpine:latest
 RUN mkdir /app
 COPY --from=builder /app/mailAPP /app
+COPY --from=builder /app/templates /templates
 EXPOSE 80
 CMD ["/app/mailAPP"]
