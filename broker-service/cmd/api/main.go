@@ -1,6 +1,7 @@
 package main
 
 import (
+	"broker/logger"
 	"fmt"
 	"log"
 
@@ -12,6 +13,10 @@ const webPort = "80"
 type Config struct{}
 
 func main() {
+
+	// init the logger
+	logger.InitLogger("/var/log/broker.log")
+
 	app := Config{}
 
 	log.Printf("starting broker service on port %s", webPort)
@@ -23,6 +28,7 @@ func main() {
 
 	err := srv.ListenAndServe()
 	if err != nil {
-		log.Panic(err)
+		logger.Log.Panic(err)
+		// log.Panic(err)
 	}
 }
